@@ -1,9 +1,6 @@
 package com.grep;
 
-//import org.jetbrains.annotations.NotNull;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import javafx.util.Pair;
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
@@ -18,7 +15,7 @@ enum FileSearcher {
                         .filter(s->s.getValue().find())
                         .forEach(s -> System.out.println(path+":"+getPrintingString(s)));
             }catch(Exception ex){
-                System.out.println("\u001B[31m File :" +path +"showed error \u001B[0m");
+                System.out.println("\u001B[31m Unable to Read File :" +path +"\u001B[0m");
             }
         }
     },SEQUENTIAL{
@@ -31,7 +28,7 @@ enum FileSearcher {
                 }
 
             }catch(Exception ex){
-                System.out.println("\u001B[31m File :" +path +"showed error \u001B[0m");
+                System.out.println("\u001B[31m Unable to Read File :" +path +"\u001B[0m");
             }
         }
     };

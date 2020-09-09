@@ -3,7 +3,6 @@ package com.grep;
 import javax.naming.ConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -86,7 +85,7 @@ public class Grep {
 
         this.traverser=traverser;
     }
-    void search() throws IOException, InterruptedException {
+    void search() throws InterruptedException {
         for(String dir:dirs){
             traverser.match(dir,pattern);
         }

@@ -2,13 +2,8 @@ package com.grep;
 
 import com.grep.Executor.ExecutorService;
 import com.grep.Executor.ThreadPool;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum FileGlobNIO {
@@ -53,5 +48,6 @@ public enum FileGlobNIO {
         FileTreeTraverser.threadPool.kill();
         FileTreeTraverser.threadPool=new ThreadPool(5);
         ex.kill();
+        ex=new ThreadPool(5);
     }
 }

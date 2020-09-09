@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPool implements ExecutorService {
     final int  capacity;
-    int currentCapacity;
+    volatile int currentCapacity=0;
     volatile boolean killCalled=false;
     AtomicInteger taskLeft=new AtomicInteger(0);
-    LinkedBlockingQueue<Runnable> linkedBlockingQueue;
+    LinkedBlockingQueue<Runnable> linkedBlockingQueue= new LinkedBlockingQueue<>();
     CountDownLatch killBlocker=new CountDownLatch(1);
     List<Thread> threads=new ArrayList<>();
 
@@ -32,19 +32,22 @@ public class ThreadPool implements ExecutorService {
             }
         }
     }
-
+    private synchronized boolean checkThreads(){
+        if(currentCapacity < capacity){
+            currentCapacity++;
+            return true;
+        }
+        return false;
+    }
     public ThreadPool(int capacity) {
         this.capacity = capacity;
-        currentCapacity = 0;
-        linkedBlockingQueue = new LinkedBlockingQueue<>();
     }
 
     @Override
     public void submit(Runnable r) {
         taskLeft.incrementAndGet();
         linkedBlockingQueue.add(r);
-        if (currentCapacity < capacity) {
-            currentCapacity++;
+        if (checkThreads()) {
             Thread t = new Thread(new Task());
             t.start();
             threads.add(t);
